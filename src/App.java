@@ -1,32 +1,31 @@
+// Nico Abel Laia - 20215520010 | UAS PBO TI 2021
+
 import java.net.*;
 import java.io.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        
         ServerSocket ss = new ServerSocket(4999);
-        Socket s = ss.accept();
 
-        System.out.println("Client connected");
+        ServerStatus st = new ServerStatus();
+        
+        while(true) {
+            Socket s = ss.accept();
 
-        InputStreamReader in = new InputStreamReader(s.getInputStream());
-        BufferedReader bf = new BufferedReader(in);
+            System.out.println("Client connected");
 
-        String str = bf.readLine();
-        System.out.println("Client: " + str);
+            InputStreamReader in = new InputStreamReader(s.getInputStream());
+            BufferedReader bf = new BufferedReader(in);
 
-        // ParentFunc prn = new ParentFunc("Marc");
-        // System.out.println("Tebak Kata Nico Abel Laia - 20215520010");
-        // System.out.println("Hy Gez : " + prn.getSambutan());
+            String str = bf.readLine();
+            System.out.println("Client: " + str);
+
+            PrintWriter pr = new PrintWriter(s.getOutputStream());
+            pr.println("Status: " + st.ServerLoad() + " | You're" + st.getStats() + ", enjoy the game!");
+            pr.flush();
+
+            MultithreadServer thread = new MultithreadServer(bf);
+            thread.start();
+        }
     }
-
-    // Input Kata
-
-    // Clue Kata
-
-    // Multithread
-
-    // File
-
-    // Newtwork
 }
